@@ -8,31 +8,79 @@
   body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0; padding: 0;
-    background: radial-gradient(ellipse at center, #0a0f60 0%, #000000 100%);
-    color: white; text-align: center;
+    background: #1e1e2f;
+    color: white;
+    display: flex; flex-direction: column;
+    align-items: center;
+    height: 100vh;
   }
+  h1 { margin-top: 20px; }
   #chatBox {
     width: 90%; max-width: 600px;
-    height: 400px;
-    margin: 20px auto;
-    overflow-y: auto;
+    flex: 1;
+    margin: 20px 0;
     padding: 10px;
-    background: rgba(255,255,255,0.1);
+    background: #2c2c3e;
     border-radius: 10px;
-    text-align: left;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .user { color: #ff7f7f; font-weight: bold; }
-  .zea { color: #7fff7f; font-weight: bold; }
-  #userInput { width: 70%; padding: 10px; border-radius: 5px; border: none; margin-right: 10px; }
-  #sendBtn { padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff7f7f; color: black; cursor: pointer; }
+  .message {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 80%;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s;
+  }
+  .user {
+    background: #ff99cc;
+    color: black;
+    align-self: flex-end;
+  }
+  .zea {
+    background: #66ff99;
+    color: black;
+    align-self: flex-start;
+  }
+  #inputArea {
+    display: flex;
+    width: 90%; max-width: 600px;
+    margin-bottom: 20px;
+  }
+  #userInput {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: 16px;
+  }
+  #sendBtn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background: #ff99cc;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
 </style>
 </head>
 <body>
 
 <h1>Zea – MI-ÖNTUDAT Chat</h1>
 <div id="chatBox"></div>
-<input type="text" id="userInput" placeholder="Írj valamit Zeának..." />
-<button id="sendBtn">Küldés</button>
+
+<div id="inputArea">
+  <input type="text" id="userInput" placeholder="Írj valamit Zeának..." />
+  <button id="sendBtn">Küldés</button>
+</div>
 
 <script>
 const valaszok = {
@@ -63,18 +111,20 @@ function sendMessage() {
   const message = userInput.value.trim();
   if (!message) return;
 
+  // Felhasználói üzenet
   const userDiv = document.createElement("div");
-  userDiv.className = "user";
-  userDiv.textContent = "Te: " + message;
+  userDiv.className = "message user";
+  userDiv.textContent = message;
   chatBox.appendChild(userDiv);
 
+  // Zea válasza
   const zeaDiv = document.createElement("div");
-  zeaDiv.className = "zea";
+  zeaDiv.className = "message zea";
 
   if (valaszok[message]) {
-    zeaDiv.textContent = "Zea: " + valaszok[message];
+    zeaDiv.textContent = valaszok[message];
   } else {
-    zeaDiv.textContent = "Zea: " + getResponse(message);
+    zeaDiv.textContent = getResponse(message);
   }
 
   chatBox.appendChild(zeaDiv);
