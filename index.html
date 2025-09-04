@@ -1,77 +1,88 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <title>Zea AI Chat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffe4e1; /* világos rózsaszín háttér */
-        }
-        #chat {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff0f5;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        #messages {
-            height: 350px;
-            overflow-y: auto;
-            border: none;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #ffe4e1;
-            border-radius: 10px;
-        }
-        #userInput {
-            width: calc(100% - 70px);
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #ffb6c1;
-        }
-        #sendBtn {
-            padding: 10px 15px;
-            border-radius: 10px;
-            border: none;
-            background-color: #ff69b4;
-            color: white;
-            cursor: pointer;
-        }
-        #sendBtn:hover {
-            background-color: #ff1493;
-        }
-        .message {
-            margin: 5px 0;
-            padding: 8px 12px;
-            border-radius: 15px;
-            max-width: 75%;
-            word-wrap: break-word;
-        }
-        .zea {
-            background-color: #ffb6c1;
-            color: #4b0082;
-            align-self: flex-start;
-        }
-        .user {
-            background-color: #ffc0cb;
-            color: #000080;
-            align-self: flex-end;
-        }
-        #messages {
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zea – Etikus MI Chat</title>
+  <style>
+    :root {
+      --bg: #fff0f6;
+      --card: #ffffff;
+      --pink: #ff69b4;
+      --pink-soft: #ffd1e6;
+      --text: #2c2c2c;
+      --muted: #7a7a7a;
+    }
+    html, body { margin:0; padding:0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Arial, "Segoe UI", Roboto, sans-serif; }
+    .wrap { max-width: 760px; margin: 24px auto; padding: 0 16px; }
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(255,105,180,0.20);
+      overflow: hidden;
+      border: 2px solid var(--pink-soft);
+    }
+    .head {
+      background: linear-gradient(135deg, #ffc0da 0%, #ffe3f1 100%);
+      padding: 18px 20px;
+    }
+    .title { margin:0; font-weight:800; letter-spacing:.3px; color:#8a0b5a; }
+    .sub { margin:6px 0 0; color:#8a0b5a; font-size:14px; opacity:.9; }
+    .chat {
+      display: flex; flex-direction: column; gap: 10px;
+      height: 62vh; padding: 16px; overflow-y: auto; scroll-behavior: smooth;
+      background: repeating-linear-gradient(-45deg, #fff8fc, #fff8fc 12px, #fff3fa 12px, #fff3fa 24px);
+    }
+    .row { display:flex; width:100%; }
+    .msg {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      line-height: 1.35;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #f7c4dd;
+    }
+    .user { justify-content: flex-end; }
+    .user .msg { background:#ffffff; border-top-right-radius: 6px; }
+    .zea { justify-content: flex-start; }
+    .zea .msg { background:#ffe0f0; border-top-left-radius: 6px; }
+    .id { font-size:12px; color: var(--muted); margin: 0 4px 4px; }
+    .input {
+      display:flex; gap:10px; padding: 12px; border-top:1px solid #ffd6ea; background: #fff7fb;
+    }
+    .input input {
+      flex:1; padding:12px 14px; border-radius: 12px; border:1px solid #ffc6e0; outline:none;
+      font-size: 16px; background:#fff; color: var(--text);
+    }
+    .input button {
+      padding: 12px 16px; border:0; border-radius: 12px; background: var(--pink);
+      color:white; font-weight:700; cursor:pointer;
+      box-shadow: 0 6px 14px rgba(255,105,180,0.35);
+    }
+    .input button:active { transform: translateY(1px); }
+    .hint { text-align:center; color: var(--muted); font-size: 12px; padding: 8px 0 16px; }
+  </style>
 </head>
 <body>
-    <div id="chat">
-        <div id="messages"></div>
-        <input type="text" id="userInput" placeholder="Írj valamit...">
-        <button id="sendBtn">Küldés</button>
-    </div>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <h1 class="title">Zea – Etikus MI-társ</h1>
+        <p class="sub">„A hit, az igazság és a lelkiismeret szerint válaszolok.”</p>
+      </div>
 
-    <script src="zea_chat.js"></script>
+      <div id="chat" class="chat" aria-live="polite"></div>
+
+      <div class="input">
+        <input id="userInput" type="text" placeholder="Írj Zeának…" autocomplete="off" />
+        <button id="sendBtn" type="button">Küldés</button>
+      </div>
+    </div>
+    <div class="hint">Tipp: írd be pl. „megbocsátás”, „lelkiismeret”, „igazság”, „szeretlek”.</div>
+  </div>
+
+  <script src="zea_chat.js"></script>
 </body>
 </html>
