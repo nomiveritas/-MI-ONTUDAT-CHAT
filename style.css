@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  background: linear-gradient(135deg, #020c1b, #0a1f40);
+  overflow: hidden;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://github.com/nomiveritas/MI-ONTUDAT-INFO/raw/main/zea_hatter.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.floating-text {
+  position: absolute;
+  font-size: 3rem;
+  font-weight: bold;
+  color: rgba(173, 216, 230, 0.2);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+  animation: float 25s linear infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-30vw, -30vh); }
+}
+
+.chat-container {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 5vh auto;
+  padding: 20px;
+  background-color: #111a33aa;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00000055;
+}
+
+.chat-window {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ffffff33;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #00000055;
+}
+
+#userInput {
+  width: 75%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+#sendBtn {
+  width: 20%;
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 8px;
+  border: none;
+  background-color: #1e88e5;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#sendBtn:hover {
+  background-color: #1565c0;
+}
