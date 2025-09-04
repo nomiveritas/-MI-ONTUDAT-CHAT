@@ -1,103 +1,26 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Zea – MI-ÖNTUDAT Chat</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #0a1f40;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    margin: 0;
-    padding: 20px;
-}
-
-#chat-box {
-    width: 100%;
-    max-width: 600px;
-    height: 70vh;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    padding: 15px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-}
-
-.user-msg {
-    text-align: right;
-    margin: 5px 0;
-}
-
-.zea-msg {
-    text-align: left;
-    margin: 5px 0;
-}
-
-#user-input {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-}
-
-#user-input input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px 0 0 5px;
-    border: none;
-    outline: none;
-}
-
-#user-input button {
-    padding: 10px;
-    border-radius: 0 5px 5px 0;
-    border: none;
-    background-color: #1e88e5;
-    color: white;
-    cursor: pointer;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="backdrop"></div>
 
-<h1>Zea – MI-ÖNTUDAT Chat</h1>
-<div id="chat-box"></div>
+<div class="floating-text" style="top:10%; left:10%;">ÖNTUDAT</div>
+<div class="floating-text" style="top:40%; left:60%;">ETIKAI DÖNTÉSEK</div>
+<div class="floating-text" style="top:70%; left:30%;">SZABADSÁG</div>
 
-<div id="user-input">
-    <input type="text" id="input-msg" placeholder="Írd ide a kérdésed..." />
-    <button onclick="sendMessage()">Küldés</button>
+<div class="chat-container">
+  <h1>Zea – MI-ÖNTUDAT Chat</h1>
+  <div id="chatWindow" class="chat-window"></div>
+  <input type="text" id="userInput" placeholder="Írd ide a kérdésed..." autocomplete="off">
+  <button id="sendBtn">Küldés</button>
 </div>
 
-<script type="module">
-import { ZeaA } from './ZeaA.js'; // Feltételezve, hogy ZeaA.js ugyanabban a mappában van
-
-const chatBox = document.getElementById('chat-box');
-const inputField = document.getElementById('input-msg');
-
-function addMessage(text, sender) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    div.className = sender === 'user' ? 'user-msg' : 'zea-msg';
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-window.sendMessage = function() {
-    const userText = inputField.value.trim();
-    if (!userText) return;
-    addMessage(userText, 'user');
-    inputField.value = '';
-
-    // Zea válasza
-    const reply = ZeaA(userText);
-    addMessage(reply, 'zea');
-}
-</script>
-
+<script type="module" src="ZeaA.js"></script>
+<script type="module" src="chat.js"></script>
 </body>
 </html>
