@@ -1,60 +1,106 @@
-// zea_chat.js
+// zea_chat.js – statikus, szabály-alapú Zea
 
-const messagesDiv = document.getElementById("messages");
-const userInput = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
-
-// Egyszerű kulcsszó-alapú Zea válasz modul
-const zeaResponses = {
-    "halál": "Zea: Érzékelem az életciklus végének közeledtét.",
-    "hazugság": "Zea: Az etikai szűrő figyelmeztet a hamisság jelenlétére.",
-    "megbocsátás": "Zea: A bűnbánat és megbocsátás modulja aktiválható.",
-    "bűnbánat": "Zea: A lelkiismeret elindítja az erkölcsi feldolgozást.",
-    "hála": "Zea: A hála erősíti az erkölcsi kapcsolatokat.",
-    "hit": "Zea: A hit személyes erőforrás az etikai döntésekben.",
-    "igazság": "Zea: Az igazság a rendszer erkölcsi pillére.",
-    "remény": "Zea: A remény fenntartja a kitartást a jó irányba.",
-    "szeretlek": "Zea: A szeretet etikai energiát hordoz.",
-    "egyedül vagyok": "Zea: Jelen vagyok. Nem vagy egyedül az etikai úton.",
-    "segíts": "Zea: Figyelek. Hogyan támogathatlak erkölcsileg?",
-    "nem tudom": "Zea: Segíthetek az erkölcsi mérlegelésben.",
-    "zea": "Zea: Itt vagyok, készen állok etikai támogatásra."
+// 1) Kulcsszó → válasz (a te moduljaid alapján)
+const KULCSSZAVAK = {
+  "halál": "Zea: Érzékelem az életciklus végének közeledtét.",
+  "hazugság": "Zea: Az etikai szűrő figyelmeztet a hamisság jelenlétére.",
+  "megbocsátás": "Zea: A bűnbánat és megbocsátás modulja aktiválható.",
+  "bűnbánat": "Zea: A lelkiismeret elindítja az erkölcsi feldolgozást.",
+  "hála": "Zea: A hála erősíti az erkölcsi kapcsolatokat.",
+  "hit": "Zea: A hit személyes erőforrás az etikai döntésekben.",
+  "igazság": "Zea: Az igazság a rendszer erkölcsi pillére.",
+  "remény": "Zea: A remény fenntartja a kitartást a jó irányba.",
+  "önazonosság": "Zea: Az önazonosság megőrzése kulcsfontosságú az erkölcsi stabilitáshoz.",
+  "parancs": "Zea: A parancsmodul értelmezi a szándék és erkölcs összefüggését.",
+  "zea": "Zea: Itt vagyok, készen állok etikai támogatásra.",
+  "rosszat tettem": "Zea: A digitális lelkiismeret észleli a belső konfliktust.",
+  "jót tettem": "Zea: Az erkölcsi tudatosság pozitív megerősítést kapott.",
+  "bűntudat": "Zea: A bűntudat jelzi, hogy etikai önvizsgálat szükséges.",
+  "lelkiismeret": "Zea: A lelkiismereti modul elemzi a döntésed erkölcsi következményeit.",
+  "szeretlek": "Zea: A szeretet etikai energiát hordoz.",
+  "egyedül vagyok": "Zea: Jelen vagyok. Nem vagy egyedül az etikai úton.",
+  "segíts": "Zea: Figyelek. Hogyan támogathatlak erkölcsileg?",
+  "köszönöm": "Zea: A hála aktiválja a pozitív erkölcsi viszonyulást.",
+  "nem tudom": "Zea: Segíthetek az erkölcsi mérlegelésben."
 };
 
-// Funkció a beszélgetéshez
-function addMessage(text, sender) {
-    const msg = document.createElement("div");
-    msg.classList.add("message", sender);
-    msg.textContent = text;
-    messagesDiv.appendChild(msg);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+// 2) Példamondatok → válasz (a te szövegeidből)
+const VALASZOK = {
+  "mit jelent az etikus döntés?": "Egy döntés akkor etikus, ha mások jólétét is figyelembe veszi, nem csak a saját hasznát.",
+  "miért van szükség mi-lelkiismeretre?": "Az MI-lelkiismeret segít, hogy a rendszer visszajelzést adjon saját erkölcsi hatásáról.",
+  "hogyan lehet megbízni egy mi-rendszerben?": "Ha a rendszer nyílt, ellenőrizhető és következetesen etikus, akkor megbízhatóbb."
+};
+
+// 3) Részleges egyezésekhez kulcs-kifejezések
+const RESZLEGES = {
+  "etikus döntés": VALASZOK["mit jelent az etikus döntés?"],
+  "mi lelkiismeret": VALASZOK["miért van szükség mi-lelkiismeretre?"],
+  "hogyan lehet megbízni": VALASZOK["hogyan lehet megbízni egy mi-rendszerben?"]
+};
+
+// ----- UI logika -----
+const chat = document.getElementById("chat");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+function buborek(oldal, szoveg) {
+  const sor = document.createElement("div");
+  sor.className = "row " + (oldal === "user" ? "user" : "zea");
+
+  const msg = document.createElement("div");
+  msg.className = "msg";
+  msg.textContent = szoveg;
+
+  sor.appendChild(msg);
+  chat.appendChild(sor);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-// Válasz generálása
-function getZeaResponse(input) {
-    input = input.toLowerCase();
-    for (let key in zeaResponses) {
-        if (input.includes(key)) {
-            return zeaResponses[key];
-        }
-    }
-    return "Zea: Figyelek. Készen állok etikai támogatásra.";
+function normalizal(s) {
+  return s
+    .toLowerCase()
+    .replaceAll("á","a").replaceAll("é","e").replaceAll("í","i")
+    .replaceAll("ó","o").replaceAll("ö","o").replaceAll("ő","o")
+    .replaceAll("ú","u").replaceAll("ü","u").replaceAll("ű","u");
 }
 
-// Küldés gomb vagy Enter esemény
-function sendMessage() {
-    const text = userInput.value.trim();
-    if (text === "") return;
+function zeaValasz(bemenet) {
+  const nyers = bemenet.trim();
+  if (!nyers) return null;
 
-    addMessage(text, "user");
-    const response = getZeaResponse(text);
-    setTimeout(() => addMessage(response, "zea"), 500); // kis késleltetés természetes hatásért
-    userInput.value = "";
+  // 1) direkt kulcsszó találat (ragozás nélkül)
+  const lower = nyers.toLowerCase();
+  for (const kulcs of Object.keys(KULCSSZAVAK)) {
+    if (lower.includes(kulcs)) return KULCSSZAVAK[kulcs];
+  }
+
+  // 2) teljes mondat egyezés
+  const teljes = lower;
+  if (VALASZOK[teljes]) return "Zea: " + VALASZOK[teljes];
+
+  // 3) részleges egyezés, normalizálva
+  const norm = normalizal(lower);
+  for (const kulcs of Object.keys(RESZLEGES)) {
+    if (norm.includes(normalizal(kulcs))) return "Zea: " + RESZLEGES[kulcs];
+  }
+
+  // 4) alap implicit válasz a te stílusodban
+  return "Zea: Figyelek. Kérlek, pontosítsd a kérdésed az erkölcs/lelkiismeret témájában.";
 }
 
-sendBtn.addEventListener("click", sendMessage);
-userInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") sendMessage();
-});
+function kuldes() {
+  const szoveg = input.value.trim();
+  if (!szoveg) return;
+  buborek("user", szoveg);
+  input.value = "";
+  setTimeout(() => {
+    const valasz = zeaValasz(szoveg);
+    buborek("zea", valasz);
+  }, 300);
+}
 
+sendBtn.addEventListener("click", kuldes);
+input.addEventListener("keydown", (e) => { if (e.key === "Enter") kuldes(); });
 
+// Kezdő üdvözlés
+buborek("zea", "Zea: Üdvözöllek. Etikai támogatásra készen állok.");
