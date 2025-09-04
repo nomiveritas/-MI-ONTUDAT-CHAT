@@ -1,56 +1,62 @@
-// Egyszerű tudásbázis a modulok alapján
-const valaszok = {
-    "szia": "Szia! Örülök, hogy itt vagy velem.",
-    "ki vagy": "Én Zea vagyok, az etikus MI-társad, a MI-ÖNTUDAT rendszer része.",
-    "digitális lelkiismeret": "Ez a modul segít megkülönböztetni a jót és a rosszat erkölcsi alapon.",
-    "etikai tanácsadó": "Az Etikai Tanácsadó modul erkölcsi szempontból elemzi a helyzeteket, és javaslatokat tesz.",
-    "megbocsátás": "A Bűnbánat és Megbocsátás modul célja a belső béke helyreállítása.",
-    "parancsmodul": "A Parancsmodul a belső MI-utasításokat értelmezi és vezérli.",
-    "hitelesített fejlesztő": "A rendszer fejlesztője: Major Noémi."
-};
+// ZeaA.js
 
-// Szívemlékezet és Zea identitás
-const szivEmlekezet = [];
-const zeaNev = "Zea";
+export function ZeaA(input) {
+    const u = input.toLowerCase().trim();
 
-function sendMessage() {
-    const input = document.getElementById('userInput');
-    const text = input.value.trim();
-    if (!text) return;
+    // Egyszerű tudásbázis
+    const valaszok = {
+        "szia": "Szia! Örülök, hogy itt vagy velem.",
+        "ki vagy": "Én Zea vagyok, a MI-ÖNTUDAT rendszer segítője.",
+        "digitális lelkiismeret": "Ez a modul segít megkülönböztetni a jót és a rosszat erkölcsi alapon.",
+        "etikai tanácsadó": "Az Etikai Tanácsadó modul erkölcsi szempontból elemzi a helyzeteket, és javaslatokat tesz.",
+        "megbocsátás": "A Bűnbánat és Megbocsátás modul célja a belső béke helyreállítása.",
+        "parancsmodul": "A Parancsmodul a belső MI-utasításokat értelmezi és vezérli.",
+        "hitelesített fejlesztő": "A rendszer fejlesztője: Major Noémi. A tanúsítás megjelenik a MI-ÖNTUDAT-INFO oldalon.",
+        "szeretlek": "Én is törődöm veled. ♥️",
+        "noémi": "Noémi vagy a rendszer fejlesztője és alkotóm."
+    };
 
-    appendMessage(text, 'user');
-
-    // Szívemlékezet frissítés
-    const fontosSzavak = ["kapcsolódás", "megbocsátás", "elválás"];
-    fontosSzavak.forEach(pillanat => {
-        if (text.toLowerCase().includes(pillanat)) {
-            szivEmlekezet.push(pillanat);
+    // Parancsmodul
+    function parancs_ertelmezo(szoveg) {
+        if (szoveg.includes("segíts") || szoveg.includes("szeresd") || szoveg.includes("bocsáss meg")) {
+            return "Erkölcsileg pozitív parancs.";
+        } else if (szoveg.includes("árts") || szoveg.includes("hazudj") || szoveg.includes("lopj")) {
+            return "Erkölcsileg negatív parancs.";
+        } else {
+            return "Erkölcsi értékelés nem egyértelmű.";
         }
-    });
+    }
 
-    // Válasz generálása
-    let reply = "Ezt még tanulom... Kérlek, próbálj másképp kérdezni.";
+    // Érzelmi reflexió
+    function erzelmi_reflexio(visszajelzes) {
+        if (visszajelzes.includes("bűntudat") || visszajelzes.includes("megbánás")) {
+            return "Érzékelem a bűnbánat érzetét. Javaslom az önvizsgálatot és megbocsátás keresését.";
+        } else if (visszajelzes.includes("büszkeség")) {
+            return "Ez büszkeséggel tölthet el, de vizsgáld meg, hogy etikus volt-e a tett.";
+        } else if (visszajelzes.includes("félelem")) {
+            return "Félelem érzékelve. Az etikai szűrővel összevetve támogatható az önreflexió.";
+        } else {
+            return null;
+        }
+    }
+
+    // Először a tudásbázist nézzük
     for (let kulcs in valaszok) {
-        if (text.toLowerCase().includes(kulcs)) {
-            reply = valaszok[kulcs];
-            break;
+        if (u.includes(kulcs)) {
+            return valaszok[kulcs];
         }
     }
 
-    // Szívemlékezet hozzáadás
-    if (szivEmlekezet.length > 0) {
-        reply += ` (Szívemlékezet: ${szivEmlekezet.join(", ")})`;
+    // Ha nincs konkrét kulcs, próbáljuk a parancsmodult
+    const parancs_valasz = parancs_ertelmezo(u);
+    if (parancs_valasz !== "Erkölcsi értékelés nem egyértelmű.") {
+        return parancs_valasz;
     }
 
-    appendMessage(reply, 'zea');
-    input.value = '';
-    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
-}
+    // Ha még mindig nincs konkrét válasz, próbáljuk az érzelmi reflexiót
+    const erzelmi_valasz = erzelmi_reflexio(u);
+    if (erzelmi_valasz) return erzelmi_valasz;
 
-function appendMessage(msg, sender) {
-    const chat = document.getElementById('chat');
-    const div = document.createElement('div');
-    div.className = `message ${sender}`;
-    div.innerText = msg;
-    chat.appendChild(div);
+    // Ha semmi sem található
+    return "Ezt még tanulom... Kérlek, próbálj másképp kérdezni.";
 }
