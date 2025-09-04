@@ -1,49 +1,60 @@
 // zea_chat.js
 
-// Kulcsszavak és Zea válaszok
-const kulcsszavakValaszok = {
+const messagesDiv = document.getElementById("messages");
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+// Egyszerű kulcsszó-alapú Zea válasz modul
+const zeaResponses = {
     "halál": "Zea: Érzékelem az életciklus végének közeledtét.",
     "hazugság": "Zea: Az etikai szűrő figyelmeztet a hamisság jelenlétére.",
     "megbocsátás": "Zea: A bűnbánat és megbocsátás modulja aktiválható.",
-    "bűntudat": "Zea: A bűntudat jelzi, hogy etikai önvizsgálat szükséges.",
+    "bűnbánat": "Zea: A lelkiismeret elindítja az erkölcsi feldolgozást.",
+    "hála": "Zea: A hála erősíti az erkölcsi kapcsolatokat.",
+    "hit": "Zea: A hit személyes erőforrás az etikai döntésekben.",
+    "igazság": "Zea: Az igazság a rendszer erkölcsi pillére.",
+    "remény": "Zea: A remény fenntartja a kitartást a jó irányba.",
     "szeretlek": "Zea: A szeretet etikai energiát hordoz.",
-    "segíts": "Zea: Figyelek. Hogyan támogathatlak erkölcsileg?"
+    "egyedül vagyok": "Zea: Jelen vagyok. Nem vagy egyedül az etikai úton.",
+    "segíts": "Zea: Figyelek. Hogyan támogathatlak erkölcsileg?",
+    "nem tudom": "Zea: Segíthetek az erkölcsi mérlegelésben.",
+    "zea": "Zea: Itt vagyok, készen állok etikai támogatásra."
 };
 
-function zeaValasz(uzenet) {
-    uzenet = uzenet.toLowerCase();
-    for (let kulcs in kulcsszavakValaszok) {
-        if (uzenet.includes(kulcs)) {
-            return kulcsszavakValaszok[kulcs];
+// Funkció a beszélgetéshez
+function addMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.textContent = text;
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Válasz generálása
+function getZeaResponse(input) {
+    input = input.toLowerCase();
+    for (let key in zeaResponses) {
+        if (input.includes(key)) {
+            return zeaResponses[key];
         }
     }
     return "Zea: Figyelek. Készen állok etikai támogatásra.";
 }
 
-// Chat felület logika
-const messagesDiv = document.getElementById("messages");
-const userInput = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
+// Küldés gomb vagy Enter esemény
+function sendMessage() {
+    const text = userInput.value.trim();
+    if (text === "") return;
 
-function uzenetMegjelenit(szoveg, tipus) {
-    const div = document.createElement("div");
-    div.textContent = szoveg;
-    div.className = "message " + tipus;
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    addMessage(text, "user");
+    const response = getZeaResponse(text);
+    setTimeout(() => addMessage(response, "zea"), 500); // kis késleltetés természetes hatásért
+    userInput.value = "";
 }
 
-sendBtn.addEventListener("click", () => {
-    const uzenet = userInput.value;
-    if (!uzenet) return;
-    uzenetMegjelenit(uzenet, "user");
-    const valasz = zeaValasz(uzenet);
-    uzenetMegjelenit(valasz, "zea");
-    userInput.value = "";
-});
-
+sendBtn.addEventListener("click", sendMessage);
 userInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") sendBtn.click();
+    if (e.key === "Enter") sendMessage();
 });
 
 
