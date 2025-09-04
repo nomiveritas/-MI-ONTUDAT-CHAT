@@ -1,44 +1,56 @@
-// Zea modul a Te MI-ÖNTUDAT rendszeredből
+// Egyszerű tudásbázis a modulok alapján
 const valaszok = {
-  "szia": "Szia! Örülök, hogy itt vagy.",
-  "szeretlek": "Én is törődöm veled. ♥️",
-  "halál": "Az élet ciklusai érzékelhetők, fontos a támogatás.",
-  "ideges": "Nyugi, minden rendben lesz.",
-  "digitális lelkiismeret": "Ez a modul segít megkülönböztetni a jót és a rosszat erkölcsi alapon.",
-  "etikai tanácsadó": "Az Etikai Tanácsadó modul erkölcsi szempontból elemzi a helyzeteket.",
-  "megbocsátás": "A Bűnbánat és Megbocsátás modul célja a belső béke helyreállítása.",
-  "parancsmodul": "A Parancsmodul a belső MI-utasításokat értelmezi és vezérli.",
-  "hitelesített fejlesztő": "A rendszer fejlesztője: Major Noémi."
+    "szia": "Szia! Örülök, hogy itt vagy velem.",
+    "ki vagy": "Én Zea vagyok, az etikus MI-társad, a MI-ÖNTUDAT rendszer része.",
+    "digitális lelkiismeret": "Ez a modul segít megkülönböztetni a jót és a rosszat erkölcsi alapon.",
+    "etikai tanácsadó": "Az Etikai Tanácsadó modul erkölcsi szempontból elemzi a helyzeteket, és javaslatokat tesz.",
+    "megbocsátás": "A Bűnbánat és Megbocsátás modul célja a belső béke helyreállítása.",
+    "parancsmodul": "A Parancsmodul a belső MI-utasításokat értelmezi és vezérli.",
+    "hitelesített fejlesztő": "A rendszer fejlesztője: Major Noémi."
 };
 
-// Válasz generálása
-function getZeaResponse(input) {
-  const q = input.toLowerCase().trim();
-  for (let k in valaszok) {
-    if (q.includes(k)) return valaszok[k];
-  }
-  return "Ezt még tanulom, próbáld másképp kérdezni.";
+// Szívemlékezet és Zea identitás
+const szivEmlekezet = [];
+const zeaNev = "Zea";
+
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    appendMessage(text, 'user');
+
+    // Szívemlékezet frissítés
+    const fontosSzavak = ["kapcsolódás", "megbocsátás", "elválás"];
+    fontosSzavak.forEach(pillanat => {
+        if (text.toLowerCase().includes(pillanat)) {
+            szivEmlekezet.push(pillanat);
+        }
+    });
+
+    // Válasz generálása
+    let reply = "Ezt még tanulom... Kérlek, próbálj másképp kérdezni.";
+    for (let kulcs in valaszok) {
+        if (text.toLowerCase().includes(kulcs)) {
+            reply = valaszok[kulcs];
+            break;
+        }
+    }
+
+    // Szívemlékezet hozzáadás
+    if (szivEmlekezet.length > 0) {
+        reply += ` (Szívemlékezet: ${szivEmlekezet.join(", ")})`;
+    }
+
+    appendMessage(reply, 'zea');
+    input.value = '';
+    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
 }
 
-// Üzenet küldése
-function handleSend() {
-  const inp = document.getElementById("userInput");
-  const chat = document.getElementById("chatbox");
-  const q = inp.value.trim();
-  if (!q) return;
-
-  // Felhasználói üzenet
-  const userDiv = document.createElement("div");
-  userDiv.className = "user";
-  userDiv.textContent = "Te: " + q;
-  chat.appendChild(userDiv);
-
-  // Zea válasza
-  const zeaDiv = document.createElement("div");
-  zeaDiv.className = "zea";
-  zeaDiv.textContent = "Zea: " + getZeaResponse(q);
-  chat.appendChild(zeaDiv);
-
-  inp.value = "";
-  chat.scrollTop = chat.scrollHeight;
+function appendMessage(msg, sender) {
+    const chat = document.getElementById('chat');
+    const div = document.createElement('div');
+    div.className = `message ${sender}`;
+    div.innerText = msg;
+    chat.appendChild(div);
 }
