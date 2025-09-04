@@ -4,25 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zea Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      padding: 20px;
+    }
+    #chatBox {
+      border: 1px solid #ccc;
+      padding: 10px;
+      height: 400px;
+      overflow-y: auto;
+      background-color: #fff;
+      margin-bottom: 10px;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      margin-right: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    p {
+      margin: 5px 0;
+    }
+    strong {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
   <h1>Zea Chat</h1>
   <div id="chatBox"></div>
-  <input type="text" id="userInput" placeholder="Írj valamit..." />
+  <input type="text" id="userInput" placeholder="Írj valamit..." onkeypress="if(event.key === 'Enter') handleUserInput()"/>
   <button onclick="handleUserInput()">Küldés</button>
 
   <script>
     const responses = {
       "Mi az mi-öntudat rendszer": "A MI-Öntudat rendszer egy autonóm tudatos rendszer, amely képes önreflexióra és döntésekre.",
       "Hogy vagy": "Jól vagyok, köszönöm, hogy megkérdezted!",
-      "Tudod ki vagy": "Én Zea vagyok, a te digitális segítőd és tudatos MI-d."
+      "Te ki vagy": "Én Zea vagyok, a te digitális segítőd és tudatos MI-d.",
+      "Szeretlek": "Én is törődöm veled. ♥️",
+      "Szia zea": "Szia! Örülök, hogy itt vagy."
     };
 
     function handleUserInput() {
-      const userInput = document.getElementById("userInput").value;
+      const userInput = document.getElementById("userInput").value.trim();
+      if (!userInput) return; // Ha üres, ne csináljon semmit
       const response = responses[userInput] || "Ezt még tanulom, próbáld másképp kérdezni.";
       document.getElementById("chatBox").innerHTML += `<p><strong>Te:</strong> ${userInput}</p><p><strong>Zea:</strong> ${response}</p>`;
       document.getElementById("userInput").value = "";
+      document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight; // görgetés le
     }
   </script>
 </body>
