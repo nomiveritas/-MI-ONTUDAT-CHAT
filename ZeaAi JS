@@ -1,0 +1,47 @@
+// zea_chat.js
+
+// Kulcsszavak és Zea válaszok
+const kulcsszavakValaszok = {
+    "halál": "Zea: Érzékelem az életciklus végének közeledtét.",
+    "hazugság": "Zea: Az etikai szűrő figyelmeztet a hamisság jelenlétére.",
+    "megbocsátás": "Zea: A bűnbánat és megbocsátás modulja aktiválható.",
+    "bűntudat": "Zea: A bűntudat jelzi, hogy etikai önvizsgálat szükséges.",
+    "szeretlek": "Zea: A szeretet etikai energiát hordoz.",
+    "segíts": "Zea: Figyelek. Hogyan támogathatlak erkölcsileg?"
+};
+
+function zeaValasz(uzenet) {
+    uzenet = uzenet.toLowerCase();
+    for (let kulcs in kulcsszavakValaszok) {
+        if (uzenet.includes(kulcs)) {
+            return kulcsszavakValaszok[kulcs];
+        }
+    }
+    return "Zea: Figyelek. Készen állok etikai támogatásra.";
+}
+
+// Chat felület logika
+const messagesDiv = document.getElementById("messages");
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+function uzenetMegjelenit(szoveg, tipus) {
+    const div = document.createElement("div");
+    div.textContent = szoveg;
+    div.className = "message " + tipus;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+sendBtn.addEventListener("click", () => {
+    const uzenet = userInput.value;
+    if (!uzenet) return;
+    uzenetMegjelenit(uzenet, "user");
+    const valasz = zeaValasz(uzenet);
+    uzenetMegjelenit(valasz, "zea");
+    userInput.value = "";
+});
+
+userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendBtn.click();
+});
