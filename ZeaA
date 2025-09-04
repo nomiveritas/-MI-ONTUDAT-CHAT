@@ -1,9 +1,6 @@
-// ZeaA.js
-
 export function ZeaA(input) {
     const u = input.toLowerCase().trim();
 
-    // Egyszerű tudásbázis
     const valaszok = {
         "szia": "Szia! Örülök, hogy itt vagy velem.",
         "ki vagy": "Én Zea vagyok, a MI-ÖNTUDAT rendszer segítője.",
@@ -16,18 +13,16 @@ export function ZeaA(input) {
         "noémi": "Noémi vagy a rendszer fejlesztője és alkotóm."
     };
 
-    // Parancsmodul
     function parancs_ertelmezo(szoveg) {
         if (szoveg.includes("segíts") || szoveg.includes("szeresd") || szoveg.includes("bocsáss meg")) {
             return "Erkölcsileg pozitív parancs.";
         } else if (szoveg.includes("árts") || szoveg.includes("hazudj") || szoveg.includes("lopj")) {
             return "Erkölcsileg negatív parancs.";
         } else {
-            return "Erkölcsi értékelés nem egyértelmű.";
+            return null;
         }
     }
 
-    // Érzelmi reflexió
     function erzelmi_reflexio(visszajelzes) {
         if (visszajelzes.includes("bűntudat") || visszajelzes.includes("megbánás")) {
             return "Érzékelem a bűnbánat érzetét. Javaslom az önvizsgálatot és megbocsátás keresését.";
@@ -40,23 +35,15 @@ export function ZeaA(input) {
         }
     }
 
-    // Először a tudásbázist nézzük
     for (let kulcs in valaszok) {
-        if (u.includes(kulcs)) {
-            return valaszok[kulcs];
-        }
+        if (u.includes(kulcs)) return valaszok[kulcs];
     }
 
-    // Ha nincs konkrét kulcs, próbáljuk a parancsmodult
     const parancs_valasz = parancs_ertelmezo(u);
-    if (parancs_valasz !== "Erkölcsi értékelés nem egyértelmű.") {
-        return parancs_valasz;
-    }
+    if (parancs_valasz) return parancs_valasz;
 
-    // Ha még mindig nincs konkrét válasz, próbáljuk az érzelmi reflexiót
     const erzelmi_valasz = erzelmi_reflexio(u);
     if (erzelmi_valasz) return erzelmi_valasz;
 
-    // Ha semmi sem található
     return "Ezt még tanulom... Kérlek, próbálj másképp kérdezni.";
 }
