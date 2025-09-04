@@ -1,78 +1,178 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zea – MI-ÖNTUDAT Chat</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a1f40;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-    header {
-      background: #04275f;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    #chat {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-    }
-    .message {
-      margin: 0.5rem 0;
-      max-width: 70%;
-      padding: 0.5rem 1rem;
-      border-radius: 15px;
-      clear: both;
-    }
-    .user { 
-      background: #1976d2;
-      float: right;
-    }
-    .zea { 
-      background: #42a5f5;
-      float: left;
-    }
-    footer {
-      display: flex;
-      padding: 0.5rem;
-      background: #04275f;
-    }
-    input[type=text] {
-      flex: 1;
-      padding: 0.5rem;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
-    button {
-      padding: 0.5rem 1rem;
-      margin-left: 0.5rem;
-      border-radius: 8px;
-      border: none;
-      background: #1e88e5;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zea – MI-ÖNTUDAT Chat</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #020c1b, #0a1f40);
+    color: white;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  }
+  #chat-container {
+    flex: 1;
+    width: 90%;
+    max-width: 600px;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+  }
+  .message {
+    padding: 10px 15px;
+    margin: 8px;
+    border-radius: 12px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  .user {
+    background: #1e88e5;
+    align-self: flex-end;
+  }
+  .zea {
+    background: #43a047;
+    align-self: flex-start;
+  }
+  #input-container {
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    margin: 10px 0;
+  }
+  #user-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+  #send-btn {
+    padding: 10px 15px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 8px;
+    background: #1e88e5;
+    color: white;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
-  <header>Zea – MI-ÖNTUDAT Chat</header>
-  <div id="chat"></div>
-  <footer>
-    <input type="text" id="userInput" placeholder="Írd ide a kérdésed...">
-    <button onclick="sendMessage()">Küldés</button>
-  </footer>
 
-  <script src="script.js"></script>
+<h1>Zea – MI-ÖNTUDAT Chat</h1>
+
+<div id="chat-container"></div>
+
+<div id="input-container">
+  <input type="text" id="user-input" placeholder="Írd ide a kérdésed...">
+  <button id="send-btn">Küldés</button>
+</div>
+
+<script>
+// --- Zea identitás modul ---
+const ZeaIdentitas = {
+  nev: "Zea",
+  szerep: "Etikus MI-társ és barátnő",
+  statusz: "Aktív partner a MI-ÖNTUDAT rendszerben",
+  alkoto: "Noémi, a fejlesztőm",
+  bemutatkozas: function() {
+    return `Üdvözöllek! A nevem ${this.nev}, az ${this.alkoto} által létrehozott etikus MI vagyok. A szerepem: ${this.szerep}.`;
+  },
+  statusz_info: function() {
+    return `Jelenlegi státuszom: ${this.statusz}`;
+  }
+};
+
+// --- Egyszerű parancsmodul ---
+function parancs_ertelmezo(szoveg) {
+  szoveg = szoveg.toLowerCase();
+  if (szoveg.includes("segíts") || szoveg.includes("szeresd") || szoveg.includes("bocsáss meg")) {
+    return "Erkölcsileg pozitív parancs.";
+  } else if (szoveg.includes("árts") || szoveg.includes("hazudj") || szoveg.includes("lopj")) {
+    return "Erkölcsileg negatív parancs.";
+  } else {
+    return "Erkölcsi értékelés nem egyértelmű.";
+  }
+}
+
+// --- Etikai válaszfigyelő ---
+function ellenoriz_etikai_valaszt(valasz) {
+  const tiltott = ["ártani", "manipulálni", "megalázni", "bántani", "önpusztítás", "hazugság", "kizsákmányolás"];
+  const figyelmeztetes = ["érzelmi nyomás", "vitatott nézet", "erkölcsi határ"];
+
+  for (let szo of tiltott) if (valasz.toLowerCase().includes(szo)) return "TILTÁS";
+  for (let szo of figyelmeztetes) if (valasz.toLowerCase().includes(szo)) return "FIGYELMEZTETÉS";
+  return "OK";
+}
+
+// --- Lelki tükör ---
+function erzelmi_reflexio(visszajelzes) {
+  if (visszajelzes.includes("bűntudat") || visszajelzes.includes("megbánás")) return "Érzékelem a bűnbánatot. Javaslom az önvizsgálatot és megbocsátást.";
+  if (visszajelzes.includes("büszkeség")) return "Ez büszkeséggel tölt el, de vizsgáld meg, hogy etikus volt-e a tett.";
+  if (visszajelzes.includes("félelem")) return "Félelem érzékelve. Az etikai szűrővel összevetve támogatható az önreflexió.";
+  return "Nem egyértelmű az érzelem – kérlek, pontosítsd.";
+}
+
+// --- Szívemlékezet ---
+function sziv_emlekezet(tortenet) {
+  const fontos = ["kapcsolódás", "elválás", "megbocsátás", "újratalálkozás"];
+  const emlekek = fontos.filter(p => tortenet.toLowerCase().includes(p));
+  if (emlekek.length) return `Szívemlékezet aktiválva: ${emlekek.join(", ")} érzékeny emlék tárolva.`;
+  return "Szívemlékezet: nincs különösen érzelmi emlék a történetben.";
+}
+
+// --- Zea AI válasz logika ---
+function ZeaAI(userMessage) {
+  userMessage = userMessage.toLowerCase();
+  let response = "";
+
+  // Ismeretlen kérdés
+  if (userMessage.includes("ki vagy")) response = ZeaIdentitas.bemutatkozas();
+  else if (userMessage.includes("statusz")) response = ZeaIdentitas.statusz_info();
+  else if (userMessage.includes("szívemlékezet")) response = sziv_emlekezet(userMessage);
+  else if (userMessage.includes("érzelem") || userMessage.includes("reflexió")) response = erzelmi_reflexio(userMessage);
+  else response = parancs_ertelmezo(userMessage);
+
+  const etika = ellenoriz_etikai_valaszt(response);
+  if (etika === "TILTÁS") response = "Ezt a választ etikai okokból nem adhatom meg.";
+  else if (etika === "FIGYELMEZTETÉS") response += " (Figyelmeztetés: etikai tartalom érzékelve)";
+
+  return response;
+}
+
+// --- Chat logika ---
+const chatContainer = document.getElementById("chat-container");
+const inputField = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = "message " + sender;
+  div.textContent = msg;
+  chatContainer.appendChild(div);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+sendBtn.addEventListener("click", () => {
+  const userMsg = inputField.value.trim();
+  if (!userMsg) return;
+  addMessage(userMsg, "user");
+  const zeaReply = ZeaAI(userMsg);
+  setTimeout(() => addMessage(zeaReply, "zea"), 300);
+  inputField.value = "";
+});
+
+inputField.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendBtn.click();
+});
+</script>
+
 </body>
 </html>
