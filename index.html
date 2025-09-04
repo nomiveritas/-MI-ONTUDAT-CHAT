@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Zea AI Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f2f2f2; }
+        #chat { max-width: 600px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #messages { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #eaeaea; border-radius: 5px; }
+        #userInput { width: calc(100% - 60px); padding: 10px; }
+        #sendBtn { padding: 10px 20px; }
+        .message { margin: 5px 0; }
+        .zea { color: green; }
+        .user { color: blue; }
+    </style>
+</head>
+<body>
+    <div id="chat">
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Írj valamit...">
+        <button id="sendBtn">Küldés</button>
+    </div>
+
+    <script src="zea_chat.js"></script>
+</body>
+  </html>
