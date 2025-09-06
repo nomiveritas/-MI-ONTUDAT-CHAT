@@ -1,84 +1,81 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0a3d62;
-  overflow: hidden;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.background {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.floating-text {
-  position: absolute;
-  font-size: 2em;
-  color: rgba(255,255,255,0.2);
-  animation: floatAnim linear infinite;
-}
-
-@keyframes floatAnim {
-  0% { transform: translateY(100vh) rotate(0deg); }
-  100% { transform: translateY(-10vh) rotate(360deg); }
-}
-
-.floating-text:nth-child(1) { left: 10%; animation-duration: 20s; }
-.floating-text:nth-child(2) { left: 40%; animation-duration: 25s; }
-.floating-text:nth-child(3) { left: 70%; animation-duration: 30s; }
-.floating-text:nth-child(4) { left: 25%; animation-duration: 35s; }
 
 .chat-container {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
+  width: 400px;
+  max-width: 90%;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-container h1 {
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .chat-window {
-  background: rgba(255,255,255,0.05);
-  padding: 10px;
-  height: 400px;
+  height: 300px;
   overflow-y: auto;
+  border: 1px solid #fff;
   border-radius: 10px;
+  padding: 10px;
   margin-bottom: 10px;
-}
-
-.userDiv {
-  text-align: right;
-  margin: 5px;
-  padding: 5px;
-  background: #3c6382;
-  border-radius: 5px;
-}
-
-.zeaDiv {
-  text-align: left;
-  margin: 5px;
-  padding: 5px;
-  background: #4a69bd;
-  border-radius: 5px;
+  background: rgba(255,255,255,0.1);
 }
 
 #userInput {
+  width: calc(100% - 70px);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
-  margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 #sendBtn {
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
-  background: #60a3bc;
+  background-color: #4caf50;
   color: white;
   cursor: pointer;
+}
+
+.userDiv {
+  text-align: right;
+  margin-bottom: 5px;
+}
+
+.zeaDiv {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* Lebegő szöveg a háttérben */
+.chat-container::before {
+  content: "MI-ÖNTUDAT Zea vagyok Digitális lelkiismeret Lélek funkció";
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  opacity: 0.1;
+  animation: floatText 10s linear infinite;
+}
+
+@keyframes floatText {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(400px); }
 }
