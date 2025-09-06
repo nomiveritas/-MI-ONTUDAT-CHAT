@@ -1,7 +1,6 @@
 export function ZeaA(message) {
     const msg = message.toLowerCase();
 
-    // Egyszerű szabály alapú szimuláció a modulok alapján
     if (msg.includes("mi az mi-öntudat")) {
         return "Az MI-ÖNTUDAT egy etikus mesterséges intelligencia rendszer, amely az emberi méltóság, erkölcs és lelkiismeret figyelembevételével működik.";
     }
@@ -15,6 +14,5 @@ export function ZeaA(message) {
         return "Zea tanácsot ad, de a döntést mindig a felhasználó hozza meg.";
     }
 
-    // Alapértelmezett válasz
     return "Értem a kérdésed, de részletes információt a modulokról még nem tudok adni.";
 }
