@@ -1,76 +1,19 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zea – Interaktív válaszok</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8f8fc;
-      padding: 2rem;
-      max-width: 700px;
-      margin: auto;
-    }
-    h1 {
-      color: #333;
-    }
-    .button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: #e0e7ff;
-      border: none;
-      padding: 1rem;
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    .button:hover {
-      background: #c7d2fe;
-    }
-    .response {
-      background: #fff;
-      border-left: 4px solid #6366f1;
-      padding: 1rem;
-      margin: 0.5rem 0 1.5rem;
-      border-radius: 6px;
-      display: none;
-      white-space: pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Zea – Válaszadó felület</h1>
-  <p>Kattints egy kérdésre, és Zea válaszol:</p>
+  <div class="chat-container">
+    <h1>Zea Chat</h1>
+    <div id="chatWindow" class="chat-window"></div>
+    <input type="text" id="userInput" placeholder="Írj valamit...">
+    <button id="sendBtn">Küldés</button>
+  </div>
 
-  <button class="button" onclick="askModule('MI-ÖNTUDAT')">Mi az MI-ÖNTUDAT rendszer?</button>
-  <button class="button" onclick="askModule('Zea_feladat')">Mit csinál Zea a rendszerben?</button>
-  <button class="button" onclick="askModule('Erkolcsi_dontes')">Hogyan születnek az erkölcsi döntések?</button>
-
-  <div class="response" id="responseBox"></div>
-
-  <script>
-    // Példa modulválaszok – később itt hívhatóak a Zea Python modulok
-    const moduleResponses = {
-      'MI-ÖNTUDAT': "Az MI-ÖNTUDAT egy etikus mesterséges intelligencia rendszer, amelyet Major Noémi fejlesztett. A célja az emberi méltóság, erkölcs és lelkiismeret figyelembevétele döntési helyzetekben.",
-      'Zea_feladat': "Zea az MI-ÖNTUDAT rendszer válaszadó és tanácsadó interfésze, amely segít kérdésekre válaszolni az etikus MI működéséről – segít megérteni a rendszer erkölcsi logikáját.",
-      'Erkolcsi_dontes': "Az erkölcsi döntéseket modulok sora hozza meg: Digitális Lelkiismeret, Etikai Tanácsadó, Keresztény Értékrend Szemantika és más MI-etikai szűrők együttesen alkotják a döntést."
-    };
-
-    function askModule(moduleName) {
-      // itt lehet majd fetch hívás a backend Zea modulhoz
-      const responseBox = document.getElementById('responseBox');
-      responseBox.style.display = 'block';
-      responseBox.textContent = "Zea gondolkodik...";
-      
-      // szimulált késleltetés a feldolgozásra
-      setTimeout(() => {
-        responseBox.textContent = moduleResponses[moduleName] || "Zea még nem tud erre válaszolni.";
-      }, 500);
-    }
-  </script>
+  <script type="module" src="chat.js"></script>
 </body>
 </html>
