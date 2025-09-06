@@ -1,77 +1,72 @@
 body {
-  margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  color: white;
-  background: linear-gradient(135deg, #020c1b, #0a1f40);
-  overflow: hidden;
-}
-
-.backdrop {
-  position: absolute;
-  inset: 0;
-  background-image: url('https://github.com/nomiveritas/MI-ONTUDAT-INFO/raw/main/zea_hatter.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.15;
-  z-index: 1;
-}
-
-.floating-text {
-  position: absolute;
-  font-size: 3rem;
-  font-weight: bold;
-  color: rgba(173, 216, 230, 0.2);
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
-  animation: float 25s linear infinite alternate;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-30vw, -30vh); }
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chat-container {
-  position: relative;
-  z-index: 2;
-  max-width: 600px;
-  margin: 5vh auto;
-  padding: 20px;
-  background-color: #111a33aa;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
   border-radius: 15px;
-  box-shadow: 0 0 20px #00000055;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+h1 {
+  text-align: center;
+  color: #1e40af;
 }
 
 .chat-window {
   height: 300px;
   overflow-y: auto;
-  border: 1px solid #ffffff33;
+  background: #f1f5f9;
+  padding: 1rem;
   border-radius: 10px;
-  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.userDiv, .zeaDiv {
   margin-bottom: 10px;
-  background-color: #00000055;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.userDiv {
+  background: #93c5fd;
+  text-align: right;
+  align-self: flex-end;
+}
+
+.zeaDiv {
+  background: #e0e7ff;
+  text-align: left;
+  align-self: flex-start;
 }
 
 #userInput {
-  width: 75%;
-  padding: 10px;
+  width: calc(100% - 90px);
+  padding: 0.5rem;
   border-radius: 8px;
-  border: none;
-  outline: none;
+  border: 1px solid #94a3b8;
 }
 
 #sendBtn {
-  width: 20%;
-  padding: 10px;
-  margin-left: 5px;
-  border-radius: 8px;
+  width: 70px;
+  padding: 0.5rem;
   border: none;
-  background-color: #1e88e5;
+  background-color: #2563eb;
   color: white;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 #sendBtn:hover {
-  background-color: #1565c0;
+  background-color: #1d4ed8;
 }
