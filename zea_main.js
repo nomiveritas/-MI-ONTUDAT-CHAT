@@ -17,11 +17,9 @@ async function sendMessageToZea(message) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
     });
-
     const data = await response.json();
     return data.reply || "Nincs válasz";
-  } catch (error) {
-    console.error("Hiba a fetch során:", error);
+  } catch {
     return "Hálózati hiba – ellenőrizd a Replit szervert";
   }
 }
@@ -35,6 +33,4 @@ sendBtn.addEventListener("click", async () => {
   appendMessage("zea", reply);
 });
 
-userInput.addEventListener("keypress", e => {
-  if (e.key === "Enter") sendBtn.click();
-});
+userInput.addEventListener("keypress", e => { if (e.key === "Enter") sendBtn.click(); });
