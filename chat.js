@@ -16,10 +16,12 @@ sendBtn.addEventListener("click", () => {
     const message = userInput.value.trim();
     if (!message) return;
     appendMessage("user", message);
+
     const reply = ZeaA(message);
     setTimeout(() => {
         appendMessage("zea", reply);
     }, 300);
+
     userInput.value = "";
 });
 
