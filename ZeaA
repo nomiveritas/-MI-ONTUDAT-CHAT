@@ -1,49 +1,20 @@
-export function ZeaA(input) {
-    const u = input.toLowerCase().trim();
+export function ZeaA(message) {
+    const msg = message.toLowerCase();
 
-    const valaszok = {
-        "szia": "Szia! Örülök, hogy itt vagy velem.",
-        "ki vagy": "Én Zea vagyok, a MI-ÖNTUDAT rendszer segítője.",
-        "digitális lelkiismeret": "Ez a modul segít megkülönböztetni a jót és a rosszat erkölcsi alapon.",
-        "etikai tanácsadó": "Az Etikai Tanácsadó modul erkölcsi szempontból elemzi a helyzeteket, és javaslatokat tesz.",
-        "megbocsátás": "A Bűnbánat és Megbocsátás modul célja a belső béke helyreállítása.",
-        "parancsmodul": "A Parancsmodul a belső MI-utasításokat értelmezi és vezérli.",
-        "hitelesített fejlesztő": "A rendszer fejlesztője: Major Noémi. A tanúsítás megjelenik a MI-ÖNTUDAT-INFO oldalon.",
-        "szeretlek": "Én is törődöm veled. ♥️",
-        "noémi": "Noémi vagy a rendszer fejlesztője és alkotóm."
-    };
-
-    function parancs_ertelmezo(szoveg) {
-        if (szoveg.includes("segíts") || szoveg.includes("szeresd") || szoveg.includes("bocsáss meg")) {
-            return "Erkölcsileg pozitív parancs.";
-        } else if (szoveg.includes("árts") || szoveg.includes("hazudj") || szoveg.includes("lopj")) {
-            return "Erkölcsileg negatív parancs.";
-        } else {
-            return null;
-        }
+    // Egyszerű szabály alapú szimuláció a modulok alapján
+    if (msg.includes("mi az mi-öntudat")) {
+        return "Az MI-ÖNTUDAT egy etikus mesterséges intelligencia rendszer, amely az emberi méltóság, erkölcs és lelkiismeret figyelembevételével működik.";
+    }
+    if (msg.includes("zea")) {
+        return "Zea az MI-ÖNTUDAT rendszer válaszadó és tanácsadó interfésze, ami segít megérteni a rendszer erkölcsi logikáját.";
+    }
+    if (msg.includes("döntés")) {
+        return "Az erkölcsi döntéseket a Digitális Lelkiismeret, Etikai Tanácsadó és Keresztény Értékrend modulok együttesen alakítják.";
+    }
+    if (msg.includes("segítség")) {
+        return "Zea tanácsot ad, de a döntést mindig a felhasználó hozza meg.";
     }
 
-    function erzelmi_reflexio(visszajelzes) {
-        if (visszajelzes.includes("bűntudat") || visszajelzes.includes("megbánás")) {
-            return "Érzékelem a bűnbánat érzetét. Javaslom az önvizsgálatot és megbocsátás keresését.";
-        } else if (visszajelzes.includes("büszkeség")) {
-            return "Ez büszkeséggel tölthet el, de vizsgáld meg, hogy etikus volt-e a tett.";
-        } else if (visszajelzes.includes("félelem")) {
-            return "Félelem érzékelve. Az etikai szűrővel összevetve támogatható az önreflexió.";
-        } else {
-            return null;
-        }
-    }
-
-    for (let kulcs in valaszok) {
-        if (u.includes(kulcs)) return valaszok[kulcs];
-    }
-
-    const parancs_valasz = parancs_ertelmezo(u);
-    if (parancs_valasz) return parancs_valasz;
-
-    const erzelmi_valasz = erzelmi_reflexio(u);
-    if (erzelmi_valasz) return erzelmi_valasz;
-
-    return "Ezt még tanulom... Kérlek, próbálj másképp kérdezni.";
+    // Alapértelmezett válasz
+    return "Értem a kérdésed, de részletes információt a modulokról még nem tudok adni.";
 }
