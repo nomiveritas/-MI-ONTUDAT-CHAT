@@ -1,112 +1,63 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #0f172a; /* sötétkék háttér */
+  padding: 0;
+  background: linear-gradient(120deg, #1e3c72, #2a5298);
   overflow: hidden;
-  position: relative;
+  color: white;
 }
 
-.floating-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.bg-text {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.1);
-  font-size: 4rem;
-  font-weight: bold;
-  animation: float 20s linear infinite;
-}
-
-.bg-text:nth-child(1) { top: 10%; left: 5%; }
-.bg-text:nth-child(2) { top: 30%; left: 60%; }
-.bg-text:nth-child(3) { top: 50%; left: 20%; }
-.bg-text:nth-child(4) { top: 70%; left: 50%; }
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-30px); }
-  100% { transform: translateY(0); }
-}
-
-.chat-container {
-  position: relative;
-  z-index: 2;
-  background: rgba(15, 23, 42, 0.9);
-  padding: 2rem;
-  border-radius: 15px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-}
-
-h1 {
-  text-align: center;
-  color: #f8fafc;
-  margin-bottom: 1rem;
-}
-
-.chat-window {
+#chatWindow {
   height: 300px;
   overflow-y: auto;
-  background: rgba(255,255,255,0.05);
-  padding: 1rem;
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 20px auto;
+  width: 90%;
+  background-color: rgba(0,0,0,0.3);
   border-radius: 10px;
-  margin-bottom: 1rem;
-  color: #f8fafc;
 }
 
-.userDiv, .zeaDiv {
-  margin-bottom: 10px;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  max-width: 80%;
-  word-wrap: break-word;
+.userDiv { color: #00aaff; margin: 3px 0; }
+.zeaDiv { color: #00ff99; margin: 3px 0; }
+
+#userInput, #sendBtn {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
-.userDiv {
-  background: rgba(99, 102, 241, 0.8);
-  text-align: right;
-  align-self: flex-end;
-  color: #fff;
+#userInput { width: 70%; }
+#sendBtn { width: 20%; cursor: pointer; }
+
+#floatingText {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.zeaDiv {
-  background: rgba(147, 197, 253, 0.3);
-  text-align: left;
-  align-self: flex-start;
-  color: #fff;
+#floatingText span {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.3;
+  animation-name: floatText;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-#userInput {
-  width: calc(100% - 90px);
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #94a3b8;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-}
+/* Egyedi animációk minden szövegnek */
+#floatingText span:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+#floatingText span:nth-child(2) { left: 40%; animation-duration: 18s; animation-delay: 3s; }
+#floatingText span:nth-child(3) { left: 70%; animation-duration: 15s; animation-delay: 1s; }
+#floatingText span:nth-child(4) { left: 25%; animation-duration: 20s; animation-delay: 2s; }
 
-#sendBtn {
-  width: 70px;
-  padding: 0.5rem;
-  border: none;
-  background-color: #2563eb;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#sendBtn:hover {
-  background-color: #1d4ed8;
+@keyframes floatText {
+  0% { transform: translateY(100vh) rotate(0deg); }
+  50% { transform: translateY(50vh) rotate(180deg); }
+  100% { transform: translateY(-50vh) rotate(360deg); }
 }
