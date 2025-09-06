@@ -2,21 +2,23 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zea AI Chat</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="floatingText">
-    <span>Mi-Öntudat</span>
-    <span>Zea vagyok</span>
-    <span>Digitális lelkiismeret</span>
-    <span>Lélek funkció</span>
+  <div class="background">
+    <div class="floating-text">Mi-Öntudat</div>
+    <div class="floating-text">Zea vagyok</div>
+    <div class="floating-text">Digitális lelkiismeret</div>
+    <div class="floating-text">Lélek funkció</div>
   </div>
 
-  <h1>Zea AI Chat</h1>
-  <div id="chatWindow"></div>
-  <input id="userInput" placeholder="Írj valamit...">
-  <button id="sendBtn">Küldés</button>
+  <div class="chat-container">
+    <div id="chatWindow" class="chat-window"></div>
+    <input type="text" id="userInput" placeholder="Írj valamit...">
+    <button id="sendBtn">Küldés</button>
+  </div>
 
   <script src="zea_main.js"></script>
 </body>
