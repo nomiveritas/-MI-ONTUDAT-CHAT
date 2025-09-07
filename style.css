@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  background: linear-gradient(120deg,#4f5bd5 0%,#5aabad 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+#floating-words {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.container {
+  max-width: 420px;
+  margin: 60px auto 0 auto;
+  padding: 24px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 18px;
+  box-shadow: 0 6px 30px rgba(60,60,90,0.20);
+  position: relative;
+  z-index: 3;
+}
+
+h1 {
+  text-align: center;
+  color: #4f5bd5;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+#chat-box {
+  height: 350px;
+  overflow-y: auto;
+  border: 1px solid #c7d3e7;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f7faff;
+  margin-bottom: 16px;
+  font-size: 1.08em;
+}
+
+.message {
+  margin: 7px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 90%;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.message.user {
+  background: #e7ecfa;
+  align-self: flex-end;
+  margin-left: 10%;
+  text-align: right;
+  color: #303050;
+}
+
+.message.zea {
+  background: #d8f4f0;
+  color: #295b53;
+  align-self: flex-start;
+}
+
+#chat-form {
+  display: flex;
+  gap: 8px;
+}
+
+#user-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #b5c6e0;
+  border-radius: 7px;
+  font-size: 1em;
+}
+
+button[type="submit"] {
+  background: #4f5bd5;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #3950c1;
+}
+
+#error-message {
+  color: #b71c1c;
+  background: #ffeaea;
+  border-radius: 7px;
+  padding: 7px 12px;
+  margin-bottom: 7px;
+  display: none;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.floating-word {
+  pointer-events: none;
+  position: absolute;
+  white-space: nowrap;
+  animation: floating 13s linear forwards;
+  opacity: 0.7;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-80vh); opacity: 0;}
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #8da4c0;
+  font-size: 0.97em;
+}
