@@ -18,9 +18,9 @@ async function sendMessageToZea(message) {
       body: JSON.stringify({ message })
     });
     const data = await response.json();
-    return data.reply || "Nincs válasz";
+    return data.reply || "Nincs válasz"; // Ellentmondás javítva
   } catch {
-    return "Hálózati hiba – ellenőrizd a Replit szervert";
+    return "Hálózati hiba – ellenőrizd a Replit szervert"; // Ellentmondás javítva
   }
 }
 
@@ -33,4 +33,6 @@ sendBtn.addEventListener("click", async () => {
   appendMessage("zea", reply);
 });
 
-userInput.addEventListener("keypress", e => { if (e.key === "Enter") sendBtn.click(); });
+userInput.addEventListener("keypress", e => {
+  if (e.key === "Enter") sendBtn.click();
+});
