@@ -17,10 +17,11 @@ async function sendMessageToZea(message) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
     });
+    if (!response.ok) throw new Error("Nem érhető el a backend");
     const data = await response.json();
     return data.reply || "Nincs válasz";
-  } catch {
-    return "Hálózati hiba – ellenőrizd a Replit szervert";
+  } catch (err) {
+    return "Hálózati hiba – a szerver nem elérhető";
   }
 }
 
