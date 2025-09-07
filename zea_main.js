@@ -18,9 +18,9 @@ async function sendMessageToZea(message) {
       body: JSON.stringify({ message })
     });
     const data = await response.json();
-    return data.reply || "Nincs válasz"; // Ellentmondás javítva
+    return data.reply || "Nincs válasz";
   } catch {
-    return "Hálózati hiba – ellenőrizd a Replit szervert"; // Ellentmondás javítva
+    return "Hálózati hiba – ellenőrizd a Replit szervert";
   }
 }
 
