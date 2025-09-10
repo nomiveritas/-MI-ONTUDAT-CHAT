@@ -1,10 +1,11 @@
 body {
   margin: 0;
-  background: linear-gradient(120deg,#4f5bd5 0%,#5aabad 100%);
+  background: #4f5bd5; /* igazi kék */
   font-family: 'Segoe UI', Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
+
 #floating-words {
   position: fixed;
   width: 100vw;
@@ -26,7 +27,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #4f5bd5;
+  color: #fff;
   letter-spacing: 1px;
   margin-bottom: 12px;
 }
