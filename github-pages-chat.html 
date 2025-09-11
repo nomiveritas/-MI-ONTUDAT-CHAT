@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MI-ÖNTUDAT - Digitális Lelkiismeret</title>
+    <meta name="description" content="MI-ÖNTUDAT - Etikai AI rendszer a digitális kor lelkiismeretével">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #1d4ed8 50%, #2563eb 75%, #1e40af 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+        
+        .floating-word {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            user-select: none;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .floating-word.word1 {
+            font-size: 4rem;
+            top: 20%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+        
+        .floating-word.word2 {
+            font-size: 2.5rem;
+            top: 15%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .floating-word.word3 {
+            font-size: 3rem;
+            bottom: 30%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+        
+        .floating-word.word4 {
+            font-size: 2.8rem;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-10px) translateX(-5px);
+                opacity: 0.8;
+            }
+            75% {
+                transform: translateY(-25px) translateX(15px);
+                opacity: 0.9;
+            }
+        }
+        
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        .main-title {
+            font-size: 6rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 2rem;
+            animation: pulse 3s infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3rem;
+        }
+        
+        .enter-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .enter-button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-decoration: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.02);
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 4rem;
+            }
+            
+            .floating-word.word1 {
+                font-size: 2.5rem;
+                top: 10%;
+                left: 5%;
+            }
+            
+            .floating-word.word2 {
+                font-size: 1.8rem;
+                top: 8%;
+                right: 5%;
+            }
+            
+            .floating-word.word3 {
+                font-size: 2rem;
+                bottom: 25%;
+                left: 5%;
+            }
+            
+            .floating-word.word4 {
+                font-size: 1.9rem;
+                bottom: 15%;
+                right: 5%;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .enter-button {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 3rem;
+            }
+            
+            .floating-word.word1 {
+                font-size: 2rem;
+            }
+            
+            .floating-word.word2 {
+                font-size: 1.5rem;
+            }
+            
+            .floating-word.word3 {
+                font-size: 1.7rem;
+            }
+            
+            .floating-word.word4 {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* Háttér részecskék */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 15s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Lebegő szavak -->
+    <div class="floating-word word1">MI-ÖNTUDAT</div>
+    <div class="floating-word word2">szabadság</div>
+    <div class="floating-word word3">digitális lelkiismeret</div>
+    <div class="floating-word word4">szeretet</div>
+    
+    <!-- Központi tartalom -->
+    <div class="center-content">
+        <h1 class="main-title">MI-ÖNTUDAT</h1>
+        <p class="subtitle">Etikai AI a digitális korszak lelkiismeretével</p>
+        <a href="github-pages-chat.html" class="enter-button">
+            🧠 Belépés a Chat-be
+        </a>
+    </div>
+    
+    <script>
+        // Háttér részecskék létrehozása
+        function createParticles() {
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Véletlenszerű méret és pozíció
+                const size = Math.random() * 4 + 2;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 10 + 10;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = left + '%';
+                particle.style.animationDuration = animationDuration + 's';
+                particle.style.animationDelay = delay + 's';
+                
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Oldal betöltése után részecskék létrehozása
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+        
+        // Extra interaktivitás - egér követés
+        document.addEventListener('mousemove', function(e) {
+            const words = document.querySelectorAll('.floating-word');
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            words.forEach((word, index) => {
+                const rect = word.getBoundingClientRect();
+                const wordCenterX = rect.left + rect.width / 2;
+                const wordCenterY = rect.top + rect.height / 2;
+                
+                const distanceX = mouseX - wordCenterX;
+                const distanceY = mouseY - wordCenterY;
+                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                
+                if (distance < 200) {
+                    const force = (200 - distance) / 200;
+                    const moveX = (distanceX / distance) * force * 10;
+                    const moveY = (distanceY / distance) * force * 10;
+                    
+                    word.style.transform = `translateX(${moveX}px) translateY(${moveY}px)`;
+                } else {
+                    word.style.transform = 'translateX(0px) translateY(0px)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
