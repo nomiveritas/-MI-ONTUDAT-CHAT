@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MI-ÖNTUDAT - Etikai AI Chat</title>
+    <meta name="description" content="AI-powered ethical decision making system that analyzes moral dilemmas through multiple philosophical frameworks">
+    
+    <!-- Modern CSS Framework (Bootstrap 5) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --info-color: #0891b2;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .thinking-indicator {
+            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+            border: 1px solid var(--info-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        .thinking-indicator.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .thinking-brain {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .response-card {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid var(--success-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .error-card {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 1px solid var(--danger-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .btn-analyze {
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .confidence-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--danger-color), var(--warning-color), var(--success-color));
+            transition: width 0.5s ease;
+        }
+        
+        .framework-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+        
+        .utilitarian { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+        .deontological { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
+        .virtue-ethics { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="chat-container">
+            <!-- Header -->
+            <div class="chat-header">
+                <h1 class="h3 mb-2">
+                    <i class="fas fa-brain me-2"></i>
+                    MI-ÖNTUDAT
+                </h1>
+                <p class="mb-0">Etikai AI Döntéshozó Rendszer</p>
+                <small class="opacity-75">Háromféle erkölcsi keretrendszer alapján</small>
+            </div>
+            
+            <!-- Chat Content -->
+            <div class="p-4">
+                <!-- Input Form -->
+                <div class="mb-4">
+                    <div class="mb-3">
+                        <label for="ethical-question" class="form-label fw-bold">
+                            <i class="fas fa-question-circle me-2 text-primary"></i>
+                            Etikai kérdés vagy dilemma
+                        </label>
+                        <textarea 
+                            id="ethical-question" 
+                            class="form-control" 
+                            rows="4" 
+                            placeholder="Írja le az etikai dilemmát, amelyről dönteni szeretne. Például: 'Egy autonóm jármű választhat egy gyalogos és öt utas között...'"
+                            data-testid="input-question"></textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="stakeholders" class="form-label fw-bold">
+                                <i class="fas fa-users me-2 text-info"></i>
+                                Érintett felek
+                            </label>
+                            <input 
+                                type="text" 
+                                id="stakeholders" 
+                                class="form-control" 
+                                placeholder="pl. utasok, gyalogosok, társadalom"
+                                data-testid="input-stakeholders">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="context" class="form-label fw-bold">
+                                <i class="fas fa-cog me-2 text-warning"></i>
+                                Kontextus
+                            </label>
+                            <select id="context" class="form-select" data-testid="select-context">
+                                <option value="">Válasszon kontextust</option>
+                                <option value="Autonomous Vehicle">Autonóm jármű</option>
+                                <option value="Medical Treatment">Orvosi kezelés</option>
+                                <option value="Resource Allocation">Erőforrás elosztás</option>
+                                <option value="Privacy vs Security">Magánélet vs Biztonság</option>
+                                <option value="Other">Egyéb</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button 
+                            id="analyze-btn" 
+                            class="btn btn-primary btn-analyze"
+                            onclick="sendMessage()"
+                            data-testid="button-analyze">
+                            <i class="fas fa-brain me-2"></i>
+                            Etikai Elemzés Indítása
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Thinking Indicator -->
+                <div id="thinking-indicator" class="thinking-indicator">
+                    <div class="text-center">
+                        <div class="thinking-brain mb-2">
+                            <i class="fas fa-brain fa-2x text-info"></i>
+                        </div>
+                        <h5 class="text-info fw-bold">🧠 Zea gondolkodik...</h5>
+                        <p class="mb-2">Elemzem az etikai dilemmát a különböző erkölcsi keretrendszereken keresztül...</p>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info w-100"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results -->
+                <div id="results-container" style="display: none;">
+                    <div class="response-card">
+                        <h4 class="text-success mb-3">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Zea AI Döntése
+                        </h4>
+                        <div id="response-content"></div>
+                    </div>
+                </div>
+                
+                <!-- Error Display -->
+                <div id="error-container" class="error-card" style="display: none;">
+                    <h5 class="text-danger mb-2">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Hiba történt
+                    </h5>
+                    <p id="error-message" class="mb-0"></p>
+                </div>
+                
+                <!-- Connection Status -->
+                <div class="text-center mt-4">
+                    <small id="connection-status" class="text-muted">
+                        <i class="fas fa-circle text-success me-1"></i>
+                        Backend kapcsolat: <span id="backend-status">Ellenőrzés...</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // REPLIT BACKEND URL - A helyes cím!
+        const REPLIT_API_URL = 'https://f0a9c57f-2869-4904-8c2f-7294260ebf66-00-ot7hg5sjvbr2.spock.replit.dev';
+        
+        // Zea Chat Client osztály
+        class ZeaChatClient {
+            constructor(apiUrl = REPLIT_API_URL) {
+                this.apiUrl = apiUrl;
+            }
+            
+            // Üzenet küldése Zea AI-nak
+            async sendMessage(message, context = {}) {
+                try {
+                    const response = await fetch(`${this.apiUrl}/zea`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            context: {
+                                stakeholders: context.stakeholders || 'felhasználók',
+                                situation: context.situation || 'chat konzultáció'
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API Hiba: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error('Chat API Hiba:', error);
+                    throw error;
+                }
+            }
+            
+            // Backend egészség ellenőrzése
+            async checkHealth() {
+                try {
+                    const response = await fetch(`${this.apiUrl}/health`);
+                    if (!response.ok) {
+                        throw new Error(`Egészség ellenőrzés sikertelen: ${response.status}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error('Egészség Ellenőrzés Hiba:', error);
+                    throw error;
+                }
+            }
+        }
+        
+        // Globális chat kliens
+        const zeaChat = new ZeaChatClient();
+        
+        // UI Kezelő függvények
+        function showThinking() {
+            document.getElementById('thinking-indicator').classList.add('show');
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('error-container').style.display = 'none';
+            document.getElementById('analyze-btn').disabled = true;
+        }
+        
+        function hideThinking() {
+            document.getElementById('thinking-indicator').classList.remove('show');
+            document.getElementById('analyze-btn').disabled = false;
+        }
+        
+        function showError(message) {
+            hideThinking();
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-container').style.display = 'block';
+            document.getElementById('results-container').style.display = 'none';
+        }
+        
+        function displayResponse(response) {
+            hideThinking();
+            
+            const content = `
+                <div class="mb-3">
+                    <h5 class="fw-bold text-dark">Döntés:</h5>
+                    <p class="fs-6">${response.message}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <h6 class="fw-bold text-dark">Indoklás:</h6>
+                    <p class="fs-6 text-muted">${response.reasoning}</p>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-dark">Bizalom:</h6>
+                        <div class="d-flex align-items-center">
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="confidence-bar" style="width: ${Math.round(response.confidence)}%"></div>
+                            </div>
+                            <span class="fw-bold text-primary">${Math.round(response.confidence)}%</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-dark">Etikai bizonyosság:</h6>
+                        <div class="d-flex align-items-center">
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="confidence-bar" style="width: ${Math.round(response.ethical_certainty)}%"></div>
+                            </div>
+                            <span class="fw-bold text-success">${Math.round(response.ethical_certainty)}%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                ${response.analysis && response.analysis.frameworks ? `
+                <div class="mb-3">
+                    <h6 class="fw-bold text-dark">Erkölcsi keretrendszerek:</h6>
+                    <div class="d-flex flex-wrap">
+                        ${response.analysis.frameworks.utilitarian ? 
+                            `<span class="framework-tag utilitarian">
+                                <i class="fas fa-balance-scale me-1"></i>Utilitárius: ${response.analysis.frameworks.utilitarian.score}%
+                            </span>` : ''}
+                        ${response.analysis.frameworks.deontological ? 
+                            `<span class="framework-tag deontological">
+                                <i class="fas fa-gavel me-1"></i>Deontológiai: ${response.analysis.frameworks.deontological.score}%
+                            </span>` : ''}
+                        ${response.analysis.frameworks.virtue_ethics ? 
+                            `<span class="framework-tag virtue-ethics">
+                                <i class="fas fa-heart me-1"></i>Erény etika: ${response.analysis.frameworks.virtue_ethics.score}%
+                            </span>` : ''}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('response-content').innerHTML = content;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('error-container').style.display = 'none';
+        }
+        
+        // Üzenet küldése
+        async function sendMessage() {
+            const questionInput = document.getElementById('ethical-question');
+            const stakeholdersInput = document.getElementById('stakeholders');
+            const contextSelect = document.getElementById('context');
+            
+            const question = questionInput.value.trim();
+            const stakeholders = stakeholdersInput.value.trim();
+            const context = contextSelect.value;
+            
+            if (!question) {
+                showError('Kérjük, írjon be egy etikai kérdést!');
+                return;
+            }
+            
+            if (!stakeholders) {
+                showError('Kérjük, adja meg az érintett feleket!');
+                return;
+            }
+            
+            if (!context) {
+                showError('Kérjük, válasszon kontextust!');
+                return;
+            }
+            
+            try {
+                showThinking();
+                
+                const response = await zeaChat.sendMessage(question, {
+                    stakeholders: stakeholders,
+                    situation: context
+                });
+                
+                displayResponse(response);
+                
+            } catch (error) {
+                showError('Hiba történt az üzenet feldolgozása során. Ellenőrizze a kapcsolatot!');
+                console.error('Küldési hiba:', error);
+            }
+        }
+        
+        // Enter billentyű kezelése
+        document.getElementById('ethical-question').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Backend kapcsolat tesztelése
+        async function checkBackendConnection() {
+            try {
+                const health = await zeaChat.checkHealth();
+                document.getElementById('backend-status').innerHTML = 
+                    `<span class="text-success">Aktív</span>`;
+                document.getElementById('connection-status').innerHTML = 
+                    `<i class="fas fa-circle text-success me-1"></i>Backend kapcsolat: <span class="text-success">Aktív</span>`;
+                console.log('✅ Backend kapcsolat sikeres:', health);
+            } catch (error) {
+                document.getElementById('backend-status').innerHTML = 
+                    `<span class="text-danger">Hiba</span>`;
+                document.getElementById('connection-status').innerHTML = 
+                    `<i class="fas fa-circle text-danger me-1"></i>Backend kapcsolat: <span class="text-danger">Hiba</span>`;
+                console.error('❌ Backend kapcsolat sikertelen:', error);
+            }
+        }
+        
+        // Oldal betöltéskor kapcsolat ellenőrzése
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBackendConnection();
+        });
+    </script>
+</body>
+</html>
