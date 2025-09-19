@@ -30,9 +30,6 @@ const chatForm = document.getElementById("chat-form");
 const userInput = document.getElementById("user-input");
 const errorDiv = document.getElementById("error-message");
 
-// Új: etikai mód kapcsoló
-const ethicalToggle = document.getElementById("ethical-mode");
-
 function addMessage(text, sender) {
     const msg = document.createElement("div");
     msg.className = "message " + sender;
@@ -50,35 +47,24 @@ chatForm.addEventListener("submit", async (e) => {
     const thinkingMsg = "<i>Zea gondolkodik...</i>";
     addMessage(thinkingMsg, "zea");
 
-    // Ellenőrzés: a felhasználó kérte az etikai elemzést?
-    const ethicalMode = ethicalToggle.checked;
-    const endpoint = ethicalMode ? "/api/analyze" : "/api/chat";
+    try {  
+        const res = await fetch("/api/analyze", { // Replit backend végpont  
+            method: "POST",  
+            headers: { "Content-Type": "application/json" },  
+            body: JSON.stringify({ dilemma: userText })  
+        });  
+        if (!res.ok) throw new Error("Hálózati hiba");  
+        const data = await res.json();  
 
-    try {
-        const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: userText })
-        });
-        if (!res.ok) throw new Error("Hálózati hiba");
-        const data = await res.json();
-
-        chatBox.lastChild.remove(); // gondolkodó üzenet törlése
-
-        let zeaMsg;
-        if (ethicalMode) {
-            zeaMsg = `<b>Elemzés:</b> ${data.analysis}<br>
-                      <b>Etikai framework:</b> ${data.framework}<br>
-                      <b>Magyarázat:</b> ${data.explanation}<br>
-                      <b>Bizonyosság:</b> <span style="color:#4f5bd5">${Math.round(data.confidence*100)}%</span>`;
-        } else {
-            zeaMsg = `<b>Zea:</b> ${data.reply}`;
-        }
-
-        addMessage(zeaMsg, "zea");
-    } catch (err) {
-        chatBox.lastChild.remove(); // gondolkodó üzenet törlése
-        errorDiv.style.display = "block";
-        errorDiv.innerText = "Nem sikerült kapcsolódni a Zea AI szerverhez.";
+        chatBox.lastChild.remove(); // gondolkodó üzenet törlése  
+        let zeaMsg = `<b>Elemzés:</b> ${data.analysis}<br>`;  
+        zeaMsg += `<b>Etikai framework:</b> ${data.framework}<br>`;  
+        zeaMsg += `<b>Magyarázat:</b> ${data.explanation}<br>`;  
+        zeaMsg += `<b>Bizonyosság:</b> <span style="color:#4f5bd5">${Math.round(data.confidence*100)}%</span>`;  
+        addMessage(zeaMsg, "zea");  
+    } catch (err) {  
+        chatBox.lastChild.remove(); // gondolkodó üzenet törlése  
+        errorDiv.style.display = "block";  
+        errorDiv.innerText = "Nem sikerült kapcsolódni a Zea AI szerverhez.";  
     }
 });
